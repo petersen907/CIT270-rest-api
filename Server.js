@@ -2,9 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const https = require('https')
 const fs = require('fs')
-const port = 443;
+const port = 4443;
 const app = express();
 var md5 = require('md5');
+
+app.use(express.static('public'))
 
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
@@ -13,8 +15,9 @@ res.send("Hello HTTPS!");
 
 https.createServer({
     key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-  }, app).listen(443, () => {
+    cert: fs.readFileSync('server.cert'), 
+    passphrase: "P@ssw0rd"
+  }, app).listen(4443, () => {
     console.log('Listening...')
   })
 
